@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" href="pic/cake.png">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For you</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            font-family: 'Kanit', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #efacdc6b;
+            margin: 0;
+            overflow: hidden;
+        }
+        .envelope {
+            position: relative;
+            width: 500px;
+            height: 300px;
+            background: #f5b9c8;
+            border-radius: 5px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        .flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 65%;
+            background: #f29bb9e1;
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            transition: transform 0.5s ease-in-out;
+            transform-origin: top;
+            z-index: 2;
+        }
+        .letter {
+            position: absolute;
+            top: 100%;
+            left: 10%;
+            width: 80%;
+            height: 70%;
+            background: white;
+            border-radius: 5px;
+            transition: top 0.5s ease-in-out;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            padding-top: 10px;
+        }
+        .envelope:hover .flap {
+            transform: rotateX(180deg);
+        }
+        .envelope:hover .letter {
+            top: 20%;
+        }
+        .bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: #f8c5d2;
+            clip-path: polygon(0 100%, 100% 100%, 50% 0);
+            z-index: 1;
+        }
+        .message-container {
+            
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 750px;
+            height: 500px;
+            background: rgb(244, 236, 241);
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            font-size: 30px;
+            font-weight: bold;
+            text-align: center;
+            padding-top: 20px;
+            transition: transform 0.5s ease-in-out;
+            z-index: 10;
+            font-family: 'Lobster', 'cursive'; /* ฟอนต์สำหรับภาษาอังกฤษ */
+}
+
+
+/* ฟอนต์ภาษาอังกฤษ */
+.message-container p {
+    font-family: 'Lobster', cursive; /* ใช้ฟอนต์ Lobster สำหรับภาษาอังกฤษ */
+    font-size: 40px;
+}
+
+/* ฟอนต์ภาษาไทย */
+.message-container span {
+    font-family: 'Kanit', sans-serif;  /* ใช้ฟอนต์ Kanit สำหรับภาษาไทย */
+}
+        .photo-frame {
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            background: white;
+            border: 5px solid #f5b9c8;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            animation: wiggle 1.5s infinite ease-in-out;
+        }
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+        }
+        /* Adjusting the position of the photo frames */
+        .left-photo-top {
+            left: -50%; /* Adjust the left position */
+            top: -10%;  /* Adjust the top position */
+        }
+
+        .left-photo-bottom {
+            left: -40%;
+            bottom: -10%; /* Adjust the bottom position */
+        }
+
+        .right-photo-top {
+            right: -50%; /* Adjust the right position */
+            top: -10%;
+        }
+
+        .right-photo-bottom {
+            right: -40%;
+            bottom: -10%; /* Adjust the bottom position */
+        }
+
+        .middle-photo {
+        left: 30%; /* Center the middle photo horizontally */
+        bottom: -25%; /* Adjust the bottom position */
+        transform: translateX(-50%); /* Ensure the element is centered */
+        background: none;
+        border: none;
+        box-shadow: none;
+    }
+
+    .middle-photo img {
+        width: 110%;  /* ลดขนาดภาพเป็น 50% ของพื้นที่ */
+        height: auto; /* ปรับความสูงให้คงอัตราส่วน */
+    }
+
+        .balloons {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        .balloon {
+            position: absolute;
+            width: 50px;
+            height: 70px;
+            background: red;
+            border-radius: 50%;
+            animation: float 5s linear infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh); opacity: 1; }
+            100% { transform: translateY(-10vh); opacity: 0; }
+        }
+
+        /* New styles for Next button and flower animation */
+        .next-button {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background-color: #f5b9c8;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            z-index: 20;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            opacity: 0; /* Hide button initially */
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .next-button.show {
+            opacity: 1; /* Show the button when it's needed */
+        }
+
+        .flower-bouquet {
+            position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 700px;
+    height: 700px;
+    background: url('pic/flower.png') no-repeat center center;
+    background-size: cover;
+    animation: flower-appear 1s ease-in-out forwards;
+    z-index: 30;
+        }
+
+        @keyframes appear {
+            0% { transform: translate(-50%, -50%) scale(0); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+        @keyframes flower-appear {
+    0% {
+        transform: translate(-50%, -50%) scale(0) rotate(45deg);
+        opacity: 0;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.2) rotate(15deg);
+        opacity: 0.7;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div class="envelope">
+        <div class="flap"></div>
+        <div class="letter" onclick="showMessage()">กดตรงนี้นะ ^^</div>
+        <div class="bottom"></div>
+    </div>
+    <div class="message-container" id="message">
+        <p>27 February 2025 <br> Happy Birthday To You kubb!!</p>
+        <span>วันเกิดปีนี้ขอให้เธอมีความสุขมากๆ<br>มีเรื่องเครียดอะไรขอให้มันผ่านไปได้ด้วยดี <br> 
+            พร้อมที่จะอยู่ข้างเธอตลอด อยากให้เธอยิ้มเยอะๆ <br> เป็นความน่ารักแบบนี้ไปอีกนานๆ ดีใจที่มีเธอมากๆ<br> ขอบคุณที่เข้ามาในชีวิตทำให้สดใสขึ้นนะ  ❤️ 💕
+        </span>
+        <div class="photo-frame left-photo-top"><img src="pic/boom3.jpg" alt="Left Photo Top"></div>
+        <div class="photo-frame left-photo-bottom">
+            <video width="100%" height="100%" autoplay loop muted>
+                <source src="pic/boomclip.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div class="photo-frame right-photo-top"><img src="pic/boom1.jpg" alt="Right Photo Top"></div>
+        <div class="photo-frame right-photo-bottom"><img src="pic/boom4.jpg" alt="Right Photo Bottom"></div>
+        <div class="photo-frame middle-photo"><img src="pic/cake.png" alt="Middle Photo"></div>
+    </div>
+    
+    <div class="balloons" id="balloons"></div>
+    <audio id="bg-music" loop>
+        <source src="music/Lost-Jigsaw.mp3" type="audio/mpeg">
+    </audio>
+    <button class="next-button" id="nextButton" onclick="showFlowers()">Next</button>
+
+    <script>
+        function showMessage() {
+            let audio = document.getElementById('bg-music');
+            audio.play();
+            audio.volume = 0.1;
+            document.getElementById('message').style.transform = 'translate(-50%, -50%) scale(1)';
+            
+            // Show the Next button after the letter shows up
+            document.getElementById('nextButton').classList.add('show');
+            
+            let balloonContainer = document.getElementById('balloons');
+            for (let i = 0; i < 20; i++) {
+                let balloon = document.createElement('div');
+                balloon.className = 'balloon';
+                balloon.style.left = Math.random() * 100 + 'vw';
+                balloon.style.background = `hsl(${Math.random() * 360}, 100%, 70%)`;
+                balloon.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                balloonContainer.appendChild(balloon);
+            }
+        }
+
+        function showFlowers() {
+            let flowerBouquet = document.createElement('div');
+            flowerBouquet.className = 'flower-bouquet';
+            document.body.appendChild(flowerBouquet);
+        }
+    </script>
+</body>
+</html>
